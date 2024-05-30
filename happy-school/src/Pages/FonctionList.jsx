@@ -30,9 +30,9 @@ function FonctionList() {
       }
       findFonction()
 
-      let deleteFonction = () =>
+      let deleteFonction = (delFonctionName) =>
         {
-            fetch('http://localhost:8081/fonction/delete/' + fonctionName, {method : 'delete'}).then(response => {
+            fetch('http://localhost:8081/fonction/delete/' + delFonctionName, {method : 'delete'}).then(response => {
                 if(!response.ok){
                   throw new Error('Erreur lors de la création de la fonction');
                 }
@@ -111,7 +111,7 @@ function FonctionList() {
                                     <td>
                                     <button onClick={toggleModal} className="btn default">Mettre a jour</button>
                                 <button onClick={() => {
-                                            setFonctionName(fonction.fonctionName); deleteFonction()}} className="btn danger">Supprimer</button>
+                                             deleteFonction(fonction.fonctionName)}} className="btn danger">Supprimer</button>
 
                                     </td>
                                 </tr>)

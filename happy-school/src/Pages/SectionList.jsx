@@ -10,7 +10,7 @@ function SectionList() {
   };
 
     let [sections, setSections] = useState([])
-    let [sectionId, setSectionId] = useState('')
+    // let [sectionId, setSectionId] = useState('')
   
     let findSection = () =>
       {
@@ -28,10 +28,10 @@ function SectionList() {
       findSection()
     //   console.log(sections)
 
-    let deleteSection = () =>
+    let deleteSection = (delSectionId) =>
         {
-            fetch('http://localhost:8081/section/delete/' + sectionId, {method : 'delete'}).then(response => {
-              console.log(sectionId)
+            let data =  fetch('http://localhost:8081/section/delete/' + delSectionId, {method : 'delete'}).then(response => {
+              // console.log(sectionId)
                 if(!response.ok){
                   throw new Error('Erreur lors de la suppression de la section');
                 }
@@ -94,12 +94,12 @@ function SectionList() {
                             {sections.map((section) => { 
                                 return(
                                 <tr>
-                                    <td>{section.sectionId}</td>
+                                    <td >{section.sectionId}</td>
                                     <td>{section.sectionName}</td>
                                     <td>
                                     <button onClick={toggleModal} className="btn default">Mettre a jour</button>
                                 <button onClick={() => {
-                                            setSectionId(section.sectionId); deleteSection()}} className="btn danger">Supprimer</button>
+                                          deleteSection(section.sectionId)}} className="btn danger">Supprimer</button>
 
                                     </td>
                                 </tr>)

@@ -28,14 +28,12 @@ function GradeList() {
       findGrade()
     //   console.log(classes)
 
-    let deleteGrade = () =>
+    let deleteGrade = (delGradeId) =>
         {
-            fetch('http://localhost:8081/grade/delete/' + gradeId, {method : 'delete'}).then(response => {
-              console.log(gradeId)
+            fetch('http://localhost:8081/grade/delete/' + delGradeId, {method : 'delete'}).then(response => {
                 if(!response.ok){
                   throw new Error('Erreur lors de la suppression de la classe');
                 }
-                console.log(response.json())
                 return response.json();
               }).then(data => { 
                   alert('Classe supprimé')
@@ -114,7 +112,7 @@ function GradeList() {
                                     <td>
                                     <button onClick={toggleModal} className="btn default">Mettre a jour</button>
                                 <button onClick={() => {
-                                            setGradeId(grade.gradeId); deleteGrade()}} className="btn danger">Supprimer</button>
+                                            deleteGrade(grade.gradeId)}} className="btn danger">Supprimer</button>
                                     </td>
                                 </tr>)
                             })}

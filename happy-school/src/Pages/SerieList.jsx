@@ -29,9 +29,9 @@ function SerieList() {
       findSeries()
     //   console.log(seriess)
 
-    let deleteSeries = () =>
+    let deleteSeries = (delCode) =>
         {
-            fetch('http://localhost:8081/series/delete/' + code, {method : 'delete'}).then(response => {
+            fetch('http://localhost:8081/series/delete/' + delCode, {method : 'delete'}).then(response => {
                 if(!response.ok){
                   throw new Error('Erreur lors de la création de la series');
                 }
@@ -100,7 +100,7 @@ function SerieList() {
                                     <td>
                                     <button onClick={toggleModal} className="btn default">Mettre a jour</button>
                                 <button onClick={() => {
-                                            setCode(series.code); deleteSeries()}} className="btn danger">Supprimer</button>
+                                             deleteSeries(series.code)}} className="btn danger">Supprimer</button>
 
                                     </td>
                                 </tr>)

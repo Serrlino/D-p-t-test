@@ -28,9 +28,9 @@ function BureauList() {
       findOffice()
     //   console.log(offices)
 
-    let deleteOffice = () =>
+    let deleteOffice = (delOfficeId) =>
         {
-            fetch('http://localhost:8081/office/delete/' + officeId, {method : 'delete'}).then(response => {
+            fetch('http://localhost:8081/office/delete/' + delOfficeId, {method : 'delete'}).then(response => {
                 if(!response.ok){
                   throw new Error('Erreur lors de la création du bureau');
                 }
@@ -141,7 +141,7 @@ function BureauList() {
                                     <td>
                                         <button onClick={toggleModal} className="btn default">Mettre a jour</button>
                                         <button onClick={() => {
-                                            setOfficeId(office.officeId); deleteOffice()}} className="btn danger">Supprimer</button>
+                                            deleteOffice(office.officeId)}} className="btn danger">Supprimer</button>
 
                                     </td>
                                 </tr>)
