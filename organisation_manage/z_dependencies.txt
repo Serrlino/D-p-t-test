@@ -1,0 +1,60 @@
+import lombok.
+    Data
+    Getter
+    Setter
+    NoArgsConstructor
+    AllArgsConstructor
+
+import jakarta.persistence.
+    Id
+    Table
+    MapsId
+    Entity
+    Column
+    IdClass
+    OneToOne
+    JoinTable
+    OneToMany
+    FetchType
+    ManyToOne
+    ManyToMany
+    JoinColumn
+    Embeddable
+    EmbeddedId
+    CascadeType
+    GeneratedValue
+    GenerationType
+    EntityListeners
+    MappedSuperclass
+
+import org.springframework.http.
+    MediaType
+
+import org.springframework.beans.factory.annotation.
+    Autowired
+    Qualifier
+
+import org.springframework.stereotype.
+    Service
+    Repository
+
+import com.fasterxml.jackson.annotation.
+    JsonIgnore
+
+import org.springframework.data.annotation.
+    CreatedDate
+    LastModifiedDate
+
+import org.springframework.data.jpa.repository.
+    JpaRepository
+    CrudRepository
+
+import org.springframework.web.bind.annotation.
+    RequestBody
+    PathVariable
+    RequestMethod
+    RestController
+    RequestMapping
+    ResponseStatus
+    CrossOrigin
+    \Get | Post | Put | Delete\Mapping
