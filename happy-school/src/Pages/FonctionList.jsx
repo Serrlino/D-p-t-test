@@ -18,13 +18,15 @@ function FonctionList() {
       {
         fetch('http://localhost:8081/fonction/read').then(response => {
           if(!response.ok){
-            throw new Error('Erreur lors de la création du produit');
+            throw new Error('Erreur lors de la création de la fonction');
           }
           return response.json();
         }).then(data => {
             setFonctions(data) 
             console.log(data)
-        }).catch(error =>{});
+        }).catch(error =>{
+          alert(error.message)
+        });
       }
       findFonction()
 
@@ -32,14 +34,15 @@ function FonctionList() {
         {
             fetch('http://localhost:8081/fonction/delete/' + fonctionName, {method : 'delete'}).then(response => {
                 if(!response.ok){
-                  throw new Error('Erreur lors de la création du produit');
+                  throw new Error('Erreur lors de la création de la fonction');
                 }
                 return response.json();
               }).then(data => { 
-                //   alert('bureau supprimé')
-                  alert(fonctionName)
+                  alert('Fonction supprimé')
+                  alert()
               }).catch(error =>{
-            });
+                alert(error.message)
+              });
       
         }
 

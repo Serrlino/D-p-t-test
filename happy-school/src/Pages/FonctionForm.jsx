@@ -13,13 +13,13 @@ function FonctionForm(){
 
       let data = await fetch('http://localhost:8081/fonction/create/' + fonctionName +'/'+ description, {method : 'post'}).then(response => {
         if(!response.ok){
-          throw new Error('Erreur lors de la création du produit');
+          throw new Error('Erreur lors de la création de la fonction');
         }
         return response.text();
       }).then(data => {
         alert(data);
       }).catch(error =>{
-        alert(error);
+        alert(error.message)
       });
     }
 

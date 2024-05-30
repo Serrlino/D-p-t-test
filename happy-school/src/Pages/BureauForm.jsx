@@ -3,27 +3,27 @@ import ActionBur from '../Components/ActionBur';
 
 function BureauForm(){
 
-  // let[office, setOffice] = useState([])
   let [officeName, setOfficeName] = useState('')
 
   let addOffice = async (event) =>
     {
       event.preventDefault();
+      
       let data = await fetch('http://localhost:8081/office/create/' + officeName, {method : 'post'}).then(response => {
         if(!response.ok){
-          throw new Error('Erreur lors de la création du produit');
+          throw new Error('Erreur lors de la création du bureau');
         }
         return response.text();
       }).then(data => {
         alert(data);
       }).catch(error =>{
-        alert(error);
+        alert(error.message);
       });
     }
 
     return(
         <div className="content">
-  <h2>Gerer le bureau</h2>
+  <h2>Gerer le Bureau</h2>
   <hr/>
   <div className="row">
 

@@ -16,14 +16,13 @@ function BureauList() {
       {
         fetch('http://localhost:8081/office/read').then(response => {
           if(!response.ok){
-            throw new Error('Erreur lors de la création du produit');
+            throw new Error('Erreur lors de la création du bureau');
           }
           return response.json();
         }).then(data => {
             setOffices(data) 
-            console.log(data)
         }).catch(error =>{
-          
+            alert(error.message)
         });
       }
       findOffice()
@@ -33,13 +32,13 @@ function BureauList() {
         {
             fetch('http://localhost:8081/office/delete/' + officeId, {method : 'delete'}).then(response => {
                 if(!response.ok){
-                  throw new Error('Erreur lors de la création du produit');
+                  throw new Error('Erreur lors de la création du bureau');
                 }
                 return response.json();
               }).then(data => { 
-                  alert('bureau supprimé')
-                  alert(officeId)
+                  alert('Bureau supprimé')
               }).catch(error =>{
+                alert(error.message)
             });
       
         }
@@ -95,15 +94,6 @@ function BureauList() {
                                 </div>
                                 <div className="col-75">
                                 <input type="text" id="fname" name="firstname" placeholder="Libelle du bureau .."/>
-                                </div>
-                            </div>
-
-                            <div className="row">
-                                <div className="col-25">
-                                <label for="subject">Description</label>
-                                </div>
-                                <div className="col-75">
-                                <textarea id="subject" name="subject" placeholder="Description du bureau .."  style={{ height:200 + 'px' }}></textarea>
                                 </div>
                             </div>
                             

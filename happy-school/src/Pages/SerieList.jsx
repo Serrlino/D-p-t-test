@@ -17,7 +17,7 @@ function SerieList() {
       {
         fetch('http://localhost:8081/series/index').then(response => {
           if(!response.ok){
-            throw new Error('Erreur lors de la création du produit');
+            throw new Error('Erreur lors de la création de la series');
           }
           return response.json();
         }).then(data => {
@@ -33,7 +33,7 @@ function SerieList() {
         {
             fetch('http://localhost:8081/series/delete/' + code, {method : 'delete'}).then(response => {
                 if(!response.ok){
-                  throw new Error('Erreur lors de la création du produit');
+                  throw new Error('Erreur lors de la création de la series');
                 }
                 return response.json();
               }).then(data => { 
