@@ -6,8 +6,6 @@ function EnseignantForm() {
     const link1 = 'premier lien';
     const link2 = 'deuxieme lien';
 
-      let[officeId, setOfficeId] = useState()
-
 
   let [teacherName, setTeacherName] = useState('')
   let [teacherAddress, setTeacherAddress] = useState('')
@@ -25,7 +23,7 @@ function EnseignantForm() {
       event.preventDefault();
       let data = await fetch('http://localhost:8081/teacher/create/' + path, {method : 'post'}).then(response => {
         if(!response.ok){
-          throw new Error('Erreur lors de la création du produit');
+          throw new Error("Erreur lors de la création del'enseignant");
         }
         return response.text();
       }).then(data => {
@@ -39,7 +37,7 @@ function EnseignantForm() {
   
       fetch('http://localhost:8081/office/read').then(response => {
           if(!response.ok){
-            throw new Error('Erreur lors de la création du produit');
+            throw new Error("Erreur lors de la création del'enseignant");
           }
           return response.json();
         }).then(data => {
@@ -55,7 +53,7 @@ function EnseignantForm() {
         {
           fetch('http://localhost:8081/fonction/read').then(response => {
             if(!response.ok){
-              throw new Error('Erreur lors de la création du produit');
+              throw new Error("Erreur lors de la création del'enseignant");
             }
             return response.json();
           }).then(data => {
@@ -122,8 +120,6 @@ function EnseignantForm() {
               <label for="lname">Bureau</label>
             </div>
             <div className="col-75">
-              {/* <input type="text" id="lname" name="lastname" placeholder="Bureau de l'enseignant.." value={teacherOffice} onChange={(e) => {setTeacherOffice(e.target.value)}}/> */}
-
               <select name="office" id="_office" onChange={(e) => {setTeacherOffice((e.target.value))}} value={teacherOffice}>
                             {offices.map((office) => { 
                                 return(
@@ -141,8 +137,6 @@ function EnseignantForm() {
               <label for="lname">Fonction</label>
             </div>
             <div className="col-75">
-              {/* <input type="text" id="lname" name="lastname" placeholder="Fonction de l'enseignant.." value={teacherFonction} onChange={(e) => {setTeacherFonction(e.target.value)}}/> */}
-
               <select name="fonc" id="_fonc" onClick={findFonction} onChange={(e) => {setTeacherFonction((e.target.value))}} value={teacherFonction}>
                             {fonctions.map((fonction) => { 
                                 return(
