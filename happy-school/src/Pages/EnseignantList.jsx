@@ -33,26 +33,11 @@ function App() {
             setTeachers(data) 
             console.log(data)
         }).catch(error =>{
-          
+          alert(error.message)          
         });
       }
       findTeacher()
     //   console.log(teachers)
-
-    let deleteTeacher = () =>
-      {
-          fetch('http://localhost:8081/teacher/delete/' + teacherId, {method : 'delete'}).then(response => {
-              if(!response.ok){
-                throw new Error("Erreur lors de la création de l'enseignant");
-              }
-              return response.json();
-            }).then(data => { 
-              //   alert('Enseignant supprimé')
-                alert(teacherId)
-            }).catch(error =>{
-          });
-    
-      }
 
       let [offices, setOffices] = useState([]);
   
@@ -65,8 +50,8 @@ function App() {
             setOffices(data)
             // console.log(offices)
         }).catch(error =>{
-          
-        });
+                alert(error.message)
+          });
 
       let [fonctions, setFonctions] = useState([])
   
@@ -82,10 +67,25 @@ function App() {
               // console.log(data)
           }).catch(error =>{
             
-          });
+              alert(error.message)
+            });
         }
 
-
+        let deleteTeacher = (delRegisterNumber) =>
+          {
+              fetch('http://localhost:8081/teacher/delete/' + delRegisterNumber, {method : 'delete'}).then(response => {
+                  if(!response.ok){
+                    throw new Error("Erreur lors de la création de l'enseignant");
+                  }
+                  return response.json();
+                }).then(data => { 
+                    alert('Enseignant supprimé')
+                }).catch(error =>{
+                  alert(error.message)
+                });
+        
+          }
+    
 
   return (
     <div className="content">
@@ -184,7 +184,7 @@ function App() {
             </div>
           </div>
 
-          
+
           <div className="row">
             <div className="col-25">
               <label for="lname">Date de Naissance</label>
@@ -238,7 +238,7 @@ function App() {
 
                                         <button onClick={toggleModal} className="btn default">mettre a jour</button>
                                 <button onClick={() => {
-                                            setTeacherId(teacher.teacherId); deleteTeacher()}} className="btn danger">Supprimer</button>
+                                            deleteTeacher(teacher.registerNumber)}} className="btn danger">Supprimer</button>
 
                                     </td>
                                 </tr>)
