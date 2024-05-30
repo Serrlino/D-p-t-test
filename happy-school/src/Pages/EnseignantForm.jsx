@@ -20,7 +20,7 @@ function EnseignantForm() {
   let addTeacher = async (event) =>
     {
       let path = teacherName + '/' + teacherAddress + '/' + teacherBirthDate
-      + '/' + teacherSex + '/' + teacherContact + '/' + 6 + '/' + teacherFonction
+      + '/' + teacherSex + '/' + teacherContact + '/' + teacherOffice + '/' + teacherFonction
 
       event.preventDefault();
       let data = await fetch('http://localhost:8081/teacher/create/' + path, {method : 'post'}).then(response => {
@@ -35,22 +35,19 @@ function EnseignantForm() {
       });
     }
 
-    let [offices, setOffices] = useState([])
+    let [offices, setOffices] = useState([]);
   
-    let findOffice = () =>
-      {
-        fetch('http://localhost:8081/office/read').then(response => {
+      fetch('http://localhost:8081/office/read').then(response => {
           if(!response.ok){
             throw new Error('Erreur lors de la création du produit');
           }
           return response.json();
         }).then(data => {
-            setOffices(data) 
-            // console.log(data)
+            setOffices(data)
+            // console.log(offices)
         }).catch(error =>{
           
         });
-      }
 
       let [fonctions, setFonctions] = useState([])
   
@@ -69,28 +66,7 @@ function EnseignantForm() {
           });
         }
 
-
-      let changeOff = (event) =>
-        {
-          let val = event.target.value
-          setTeacherOffice(val)
-          let d = val.split(':')
-          d = parseInt(d[0])
-          setOfficeId(d[0])
-
-
-          console.log(officeId)
-        }
-
-
-        let changeFonc = (event) =>
-          {
-            setTeacherFonction(event.target.value)
-            console.log(teacherFonction)
-          }
-  
-  
-  return (
+        return (
     <div className="content">
         <h2>Gerer l'Enseignant</h2>
         <hr/>
@@ -148,11 +124,11 @@ function EnseignantForm() {
             <div className="col-75">
               {/* <input type="text" id="lname" name="lastname" placeholder="Bureau de l'enseignant.." value={teacherOffice} onChange={(e) => {setTeacherOffice(e.target.value)}}/> */}
 
-              <select name="office" id="_office" onClick={findOffice} onChange={changeOff} value={teacherOffice}>
+              <select name="office" id="_office" onChange={(e) => {setTeacherOffice((e.target.value))}} value={teacherOffice}>
                             {offices.map((office) => { 
                                 return(
-                                <option>
-                                    {office.officeId}:{office.officeName}
+                                <option value={office.officeId}>
+                                    {office.officeName}
                                 </option>)
                             })}
                 
@@ -167,10 +143,10 @@ function EnseignantForm() {
             <div className="col-75">
               {/* <input type="text" id="lname" name="lastname" placeholder="Fonction de l'enseignant.." value={teacherFonction} onChange={(e) => {setTeacherFonction(e.target.value)}}/> */}
 
-              <select name="fonc" id="_fonc" onClick={findFonction} onChange={changeFonc} value={teacherFonction}>
+              <select name="fonc" id="_fonc" onClick={findFonction} onChange={(e) => {setTeacherFonction((e.target.value))}} value={teacherFonction}>
                             {fonctions.map((fonction) => { 
                                 return(
-                                <option >
+                                <option value={fonction.fonctionName}>
                                     {fonction.fonctionName}
                                 </option>)
                             })}
