@@ -12,7 +12,7 @@ function GradeForm(){
       event.preventDefault();
       let data = await fetch('http://localhost:8081/grade/create/' + gradeName + '/' + inventory, {method : 'post'}).then(response => {
         if(!response.ok){
-          throw new Error('Erreur lors de la création du produit');
+          throw new Error('Erreur lors de la création de la classe');
         }
         return response.text();
       }).then(data => {

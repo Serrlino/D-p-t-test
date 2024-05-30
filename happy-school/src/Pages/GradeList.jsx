@@ -9,23 +9,20 @@ function GradeList() {
         setIsOpen(!isOpen);
     };
 
-  
-
-    let [classes, setclasses] = useState([])
+    let [classes, setClasses] = useState([])
     let [gradeId, setGradeId] = useState('')
   
     let findGrade = () =>
       {
         fetch('http://localhost:8081/grade/read').then(response => {
           if(!response.ok){
-            throw new Error('Erreur lors de la création du produit');
+            throw new Error('Erreur lors de la création de la classe');
           }
           return response.json();
         }).then(data => {
-            setclasses(data) 
-            console.log(data)
+            setClasses(data) 
         }).catch(error =>{
-          
+            alert(error.message)
         });
       }
       findGrade()
@@ -34,18 +31,19 @@ function GradeList() {
     let deleteGrade = () =>
         {
             fetch('http://localhost:8081/grade/delete/' + gradeId, {method : 'delete'}).then(response => {
+              console.log(gradeId)
                 if(!response.ok){
-                  throw new Error('Erreur lors de la création du produit');
+                  throw new Error('Erreur lors de la suppression de la classe');
                 }
+                console.log(response.json())
                 return response.json();
               }).then(data => { 
-                //   alert('bureau supprimé')
-                  alert(gradeId)
+                  alert('Classe supprimé')
               }).catch(error =>{
+                alert(error.message)
             });
       
         }
-
   return (
     <div className="content">
         <h2>Gerer les Classes</h2>

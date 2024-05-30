@@ -22,8 +22,8 @@ function SerieList() {
           return response.json();
         }).then(data => {
             setSeriess(data) 
-            console.log(data)
         }).catch(error =>{
+          alert(error.message)
           });
       }
       findSeries()
@@ -37,9 +37,9 @@ function SerieList() {
                 }
                 return response.json();
               }).then(data => { 
-                //   alert('bureau supprimé')
-                  alert(code)
+                  alert('Serie supprimé')
               }).catch(error =>{
+                alert(error.message)
             });
       
         }

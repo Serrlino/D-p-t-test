@@ -11,17 +11,16 @@ function SectionForm(){
     let addSection = async (event) =>
       {
         event.preventDefault();
+
         let data = await fetch('http://localhost:8081/section/create/' + sectionName, {method : 'post'}).then(response => {
           if(!response.ok){
-            throw new Error('Erreur lors de la création du produit');
-          }else if(response.ok){
-            return alert("Ajout réussi");
-          }else{
-            response.json();
+            throw new Error('Erreur lors de la création de la section');
           }
+          
+          return  response.text();
         }).then(data => {
           alert(data);
-        }).catch(error =>{
+        }).catch(error => {
           alert(error);
         });
       }

@@ -9,7 +9,6 @@ function SectionList() {
       setIsOpen(!isOpen);
   };
 
-
     let [sections, setSections] = useState([])
     let [sectionId, setSectionId] = useState('')
   
@@ -17,14 +16,13 @@ function SectionList() {
       {
         fetch('http://localhost:8081/section/index').then(response => {
           if(!response.ok){
-            throw new Error('Erreur lors de la création du produit');
+            throw new Error("Erreur lors de l'affichage des section");
           }
           return response.json();
         }).then(data => {
             setSections(data) 
-            console.log(data)
         }).catch(error =>{
-          
+          alert(error.message)
         });
       }
       findSection()
@@ -33,14 +31,15 @@ function SectionList() {
     let deleteSection = () =>
         {
             fetch('http://localhost:8081/section/delete/' + sectionId, {method : 'delete'}).then(response => {
+              console.log(sectionId)
                 if(!response.ok){
-                  throw new Error('Erreur lors de la création du produit');
+                  throw new Error('Erreur lors de la suppression de la section');
                 }
                 return response.json();
               }).then(data => { 
-                //   alert('bureau supprimé')
-                  alert(sectionId)
+                  alert('Section supprimé')
               }).catch(error =>{
+                alert(error.message)
             });
       
         }

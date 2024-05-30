@@ -11,19 +11,19 @@ function SerieForm(){
       event.preventDefault();
       let data = await fetch('http://localhost:8081/series/create/' + seriesName, {method : 'post'}).then(response => {
         if(!response.ok){
-          throw new Error('Erreur lors de la création du produit');
+          throw new Error('Erreur lors de la création de la série');
         }
         return response.text();
       }).then(data => {
         alert(data);
-      }).catch(error =>{
-        alert(error);
+      }).catch(error => {
+        alert(error.message);
       });
     }
 
     return(
 <div className="content">
-  <h2>Gerer la serie</h2>
+  <h2>Gerer la Serie</h2>
   <hr/>
   <div className="row">
 
