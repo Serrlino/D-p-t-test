@@ -20,6 +20,48 @@ jobs:
   #       port: ${{  }}
   #       run: mvn -B package --file pom.xml
 
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:17
+        ports:
+          - 5433:5433
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: aaaaaaa
+          POSTGRES_DB: tontine
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Cloner le dépôt
+        uses: actions/checkout@v4
+
+      - name: Configurer Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Attendre que PostgreSQL soit prêt
+        run: |
+          until pg_isready -h localhost -p 5432 -U testuser; do
+            echo "En attente de PostgreSQL..."
+            sleep 1
+          done
+
+      - name: Exécuter les tests
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5433/tontine?currentSchema=global_schema
+          SPRING_DATASOURCE_USERNAME: postgres
+          SPRING_DATASOURCE_PASSWORD: aaaaaaa
+        run: ./mvnw test
+
   build:
 
     runs-on: ubuntu-latest
