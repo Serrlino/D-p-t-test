@@ -53,6 +53,8 @@ jobs:
         run: sudo apt-get install postgresql-client -y
       
       - name: Attendre que PostgreSQL soit prêt
+        env:
+          PGPASSWORD: aaaaaaa
         run: |
           psql -h localhost -p 5433 -U postgres -d tontine -f src\main\resources\init.sql;
 
