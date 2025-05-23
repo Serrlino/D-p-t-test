@@ -18,6 +18,4 @@ public interface PlannedMeetingRepository extends JpaRepository<PlannedMeeting, 
 
     PlannedMeeting findByGroup(Group group);
     PlannedMeeting findByMeeting(Meeting meeting);
-
-
 }

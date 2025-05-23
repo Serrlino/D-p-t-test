@@ -20,14 +20,14 @@ jobs:
   #       port: ${{  }}
   #       run: mvn -B package --file pom.xml
 
-  test:
+  build:
     runs-on: ubuntu-latest
 
     services:
       postgres:
-        image: postgres:17
+        image: postgres:16
         ports:
-          - 5433:5433
+          - 5433:5432
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: aaaaaaa
@@ -47,32 +47,11 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21'
-
-      - name: Attendre que PostgreSQL soit prêt
-        run: |
-          until pg_isready -h localhost -p 5433 -U postgres; do
-            echo "En attente de PostgreSQL..."
-            sleep 1
-          done
+          cache: maven
 
       - name: Exécuter les tests
         env:
           SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5433/tontine?currentSchema=global_schema
           SPRING_DATASOURCE_USERNAME: postgres
           SPRING_DATASOURCE_PASSWORD: aaaaaaa
-        run: ./mvnw test
-
-  build:
-
-    runs-on: ubuntu-latest
-    steps:
-    - name: GitHub Actions
-      uses: actions/checkout@v4
-    - name: Set up JDK 21
-      uses: actions/setup-java@v4
-      with:
-        java-version: '21'
-        distribution: 'temurin'
-        cache: maven
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
+        run: mvn clean package
