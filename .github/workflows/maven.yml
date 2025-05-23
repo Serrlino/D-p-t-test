@@ -49,6 +49,13 @@ jobs:
           java-version: '21'
           cache: maven
 
+      - name: Install PostgreSQL
+        run: sudo apt-get install postgresql-client -y
+      
+      - name: Attendre que PostgreSQL soit prêt
+        run: |
+          psql -h localhost -p 5433 -U postgres -d tontine -f src\main\resources\init.sql;
+
       - name: Exécuter les tests
         env:
           SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5433/tontine?currentSchema=global_schema
