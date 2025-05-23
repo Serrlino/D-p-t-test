@@ -10,6 +10,7 @@ import com.project.tontine.repository.MemberRepository;
 import com.project.tontine.service.MemberService;
 // import com.project.tontine.service.PermissionService;
 import com.project.tontine.service.RoleTypeService;
+import com.project.tontine.service.SchemaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,9 +29,10 @@ public class TontineApplication implements CommandLineRunner
 	private final MemberRepository memberRepository;
 	private final MemberService memberService;
 	private final RoleTypeService roleTypeService;
+	private final SchemaService schemaService;
 	// private final PermissionService permissionService;
 
-	public TontineApplication(@Value("${application.administrator.emails:''}") String administratorEmails, MemberRepository memberRepository, MemberService memberService, RoleTypeService roleTypeService//, PermissionService permissionService
+	public TontineApplication(@Value("${application.administrator.emails:''}") String administratorEmails, MemberRepository memberRepository, MemberService memberService, RoleTypeService roleTypeService, SchemaService schemaService//, PermissionService permissionService
 	)
 	{
         this.administratorEmails = administratorEmails;
@@ -38,11 +40,14 @@ public class TontineApplication implements CommandLineRunner
         this.memberService = memberService;
 		this.roleTypeService = roleTypeService;
         // // this.permissionService = permissionService;
+        this.schemaService = schemaService;
     }
 
 	@Override
 	public void run(String... args) throws Exception
 	{
+		schemaService.createSchema("global_schema");
+
 		//-----------------------------------------------------------------------------------------------1
 		List<String> administratorEmails = List.of(this.administratorEmails.split(","));
 		Optional<Member> optionalMember = memberRepository.findByEmail(administratorEmails.get(0));
@@ -90,7 +95,7 @@ public class TontineApplication implements CommandLineRunner
 		}
 		//-----------------------------------------------------------------------------------------------1
 
-	
+
 		//-----------------------------------------------------------------------------------------------2
 		if(roleTypeService.readAll().isEmpty())
 		{
