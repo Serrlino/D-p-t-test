@@ -52,6 +52,7 @@ public class SchemaService
         jdbcTemplate.execute(
 //               "DROP SCHEMA IF EXISTS "+ schemaName + " CASCADE; " +
                 "CREATE SCHEMA IF NOT EXISTS "  + schemaName);
+        
     }
 
     public void changeSchema(String rawSchemaName)
