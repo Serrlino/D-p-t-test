@@ -41,7 +41,7 @@ public class Role
     @ManyToMany
     @JoinTable(
         name = "Possession",
-        schema = "tontine_schema", 
+        schema = "global_schema", 
         joinColumns = @JoinColumn(name = "role_id"),
         inverseJoinColumns = @JoinColumn(name = "member_id")
     )
@@ -51,7 +51,7 @@ public class Role
     // @ManyToMany
     // @JoinTable(
     //     name = "Grant",
-    //     schema = "tontine_schema",
+    //     schema = "global_schema",
     //     joinColumns = @JoinColumn,
     //     inverseJoinColumns = @JoinColumn
     // )
