@@ -56,7 +56,7 @@ jobs:
         env:
           PGPASSWORD: aaaaaaa
         run: |
-          psql -h localhost -p 5433 -U postgres -d tontine -f src\main\resources\init.sql;
+          psql -h localhost -p 5433 -U postgres -d tontine -f src/main/resources/init.sql;
 
       - name: Exécuter les tests
         env:
