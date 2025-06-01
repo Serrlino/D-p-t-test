@@ -6,8 +6,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  create-folder:
-    name: create-folder
+  create-folders:
+    name: create-folders
     runs-on: ubuntu-latest
     steps:
     - name: Create folder on Virtual Machine
@@ -22,7 +22,7 @@ jobs:
   build:
     name: build
     runs-on: ubuntu-latest
-    needs: create-folder
+    needs: create-folders
     #------------------------------------------------
     services:
       postgres:
@@ -93,24 +93,7 @@ jobs:
         key: ${{ secrets.PRIVATE_KEY }}
         port: ${{ secrets.PORT }}
         script: |
-          ln -sf /home/chillo/application/tontine.jar /etc/init.d/tontine
-          /etc/init.d/tontine start
-
-  run-script:
-    name: run-script
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Run Script
-        uses: appleboy/ssh-action@v1
-        with:
-          username: chillo
-          host: ${{ secrets.HOST }} 
-          key: ${{ secrets.PRIVATE_KEY }}
-          port: ${{ secrets.PORT }}
-          script: |
-            ln -sf /home/chillo/application/tontine.jar /etc/init.d/tontine
-            service start tontine
+          nohup java -jar /home/chillo/application/tontine.jar > /home.chillo/tontine.log 2>&1 &
 
       # - name: sssss
       #   run: mvn spring-boot:run
