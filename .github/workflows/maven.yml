@@ -17,7 +17,7 @@ jobs:
         host: ${{ secrets.HOST }} 
         key: ${{ secrets.PRIVATE_KEY }}
         port: ${{ secrets.PORT }}
-        script: mkdir -p /opt/application/tontine
+        script: mkdir -p /home/chillo/application/tontine
 
   build:
     name: build
@@ -61,7 +61,7 @@ jobs:
           key: ${{ secrets.PRIVATE_KEY }}
           port: ${{ secrets.PORT }}
           source: "target/tontine.jar"
-          target: /opt/application/tontine
+          target: /home/chillo/application/tontine
           strip_components: 1
         #------------------------------------------------
       - name: Install PostgreSQL
@@ -93,7 +93,7 @@ jobs:
         key: ${{ secrets.PRIVATE_KEY }}
         port: ${{ secrets.PORT }}
         script: |
-          ln -sf /opt/application/tontine.jar /etc/init.d/tontine
+          ln -sf /home/chillo/application/tontine.jar /etc/init.d/tontine
           /etc/init.d/tontine start
 
   run-script:
@@ -109,7 +109,7 @@ jobs:
           key: ${{ secrets.PRIVATE_KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            ln -sf /opt/application/tontine.jar /etc/init.d/tontine
+            ln -sf /home/chillo/application/tontine.jar /etc/init.d/tontine
             service start tontine
 
       # - name: sssss
