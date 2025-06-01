@@ -1,1 +1,1 @@
-CREATE SCHEMA IF NOT EXISTS global_schema;
+CREATE SCHEMA IF NOT EXISTS global_schema

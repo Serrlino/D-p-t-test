@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
-@Transactional(propagation = Propagation.REQUIRES_NEW)
 @Slf4j
 @Service
 public class SchemaService
@@ -36,7 +35,7 @@ public class SchemaService
     @Value("${application.administrator.emails:''}")
     private String administratorEmails;
 
-    public SchemaService(JdbcTemplate jdbcTemplate, MemberService memberService, MemberRepository memberRepository, RoleTypeService roleTypeService)
+    public SchemaService(JdbcTemplate jdbcTemplate, MemberService memberService, MemberRepository memberRepository, RoleTypeService roleTypeService)//, PermissionService permissionService
     {
         this.jdbcTemplate = jdbcTemplate;
         this.memberService = memberService;
@@ -44,10 +43,18 @@ public class SchemaService
         this.roleTypeService = roleTypeService;
     }
 
+//    private String sanitizeSchemaName(String input)
+//    {
+//        if (!input.matches("^[a-zA-Z0-9_]+$")) {
+//            throw new IllegalArgumentException("Nom de schéma invalide.");
+//        }
+//        return input;
+//    }
 
     public void createSchema(String rawSchemaName)
     {
-        String schemaName = sanitizeSchemaName(rawSchemaName);
+//        String schemaName = sanitizeSchemaName(rawSchemaName);
+        String schemaName = rawSchemaName;
 
         jdbcTemplate.execute(
 //               "DROP SCHEMA IF EXISTS "+ schemaName + " CASCADE; " +
@@ -55,59 +62,33 @@ public class SchemaService
 
     }
 
-    public void changeSchema(String rawSchemaName)
-    {
-        String schemaName = sanitizeSchemaName(rawSchemaName);
-        jdbcTemplate.execute("SET search_path TO  " + schemaName);
-    }
+    public void generateTables() {
 
-    private String sanitizeSchemaName(String input)
-    {
-        if (!input.matches("^[a-zA-Z0-9_]+$")) {
-            throw new IllegalArgumentException("Nom de schéma invalide.");
-        }
-        return input;
-    }
+            if (roleTypeService.readAll().isEmpty()) 
+            {
+                RoleType roleType = new RoleType();
 
-    public DataSource generateDataSourceBySchema(String schema)
-    {
-        HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:postgresql://localhost:5433/tontine");
-        config.setUsername("postgres");
-        config.setPassword("aaaaaaa");
-
-        config.setConnectionInitSql("SET search_path TO " + schema);
-
-        return new HikariDataSource(config);
-    }
-
-    public void generateTables(DataSource dataSource, String directory) {
-        LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
-        emf.setDataSource(dataSource);
-        emf.setPackagesToScan("com.project.tontine." + directory);
-        emf.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-
-        Properties props = new Properties();
-        props.setProperty("hibernate.hbm2ddl.auto", "create");
-        props.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
-
-        emf.setJpaProperties(props);
-
-        emf.afterPropertiesSet(); // <<< C'est cette ligne qui déclenche la génération des tables
-
-        EntityManager em = emf.getObject().createEntityManager();
-
-        //-----------------------------------------------------------------------------------------------1
-        if (directory.equals("model")) {
+                for (RoleTypeLabel roleTypeLabel : RoleTypeLabel.values())
+                {
+                    roleType.setId(null);
+                    roleType.setLabel(roleTypeLabel);
+                    roleType.setDescription("");
+                    roleTypeService.create(roleType);
+                }
+            }
+            
             List<String> administratorEmails = List.of(this.administratorEmails.split(","));
-            Optional<Member> optionalMember = memberRepository.findByEmail(administratorEmails.get(0));
-
-            if (optionalMember.isEmpty()) {
                 Member member = new Member();
                 Account account = new Account();
-
-                account.setUsername("Admin1");
+            Optional<Member> optionalMember = null;
+            
                 account.setEnable(true);
+                member.setEnable(true);
+            optionalMember = memberRepository.findByEmail(administratorEmails.get(0));
+
+            if (optionalMember.isEmpty())
+            {
+                account.setUsername("Admin1");
 
                 member.setName("Tchouanguem");
                 member.setFirstname("Yann");
@@ -116,19 +97,16 @@ public class SchemaService
                 member.setPassword("One");
 
                 memberService.create(member, 1);
-                member.setEnable(true);
-                memberRepository.save(member);
                 memberService.createAccount(account, member.getId());
             }
 
+            account.setId(null);
+            member.setId(null);
             optionalMember = memberRepository.findByEmail(administratorEmails.get(1));
 
-            if (optionalMember.isEmpty()) {
-                Member member = new Member();
-                Account account = new Account();
-
+            if (optionalMember.isEmpty())
+            {
                 account.setUsername("Admin2");
-                account.setEnable(true);
 
                 member.setName("Kemdem");
                 member.setFirstname("Hervé");
@@ -137,24 +115,22 @@ public class SchemaService
                 member.setPassword("Two");
 
                 memberService.create(member, 1);
-                member.setEnable(true);
-                memberRepository.save(member);
                 memberService.createAccount(account, member.getId());
             }
-            //-----------------------------------------------------------------------------------------------1
 
+            
+		// if(permissionService.readAllPermission().isEmpty())
+		// {
 
-            //-----------------------------------------------------------------------------------------------2
-            if (roleTypeService.readAll().isEmpty()) {
-                RoleType roleType = new RoleType();
+		// 	Permission permission = new Permission();
 
-                for (RoleTypeLabel roleTypeLabel : RoleTypeLabel.values()) {
-                    roleType.setId(0);
-                    roleType.setLabel(roleTypeLabel);
-                    roleType.setDescription("");
-                    roleTypeService.create(roleType);
-                }
-            }
-            //-----------------------------------------------------------------------------------------------1
+		// 	for(PermissionLabel permissionLabel : PermissionLabel.values())
+		// 	{
+		// 		permission.setId(0);
+		// 		permission.setPermissionLabel(permissionLabel);
+		// 		permission.setPermissionDescription("");
+		// 		permissionService.createPermission(permission);
+		// 	}
+		// }
         }
-    }}
+    }

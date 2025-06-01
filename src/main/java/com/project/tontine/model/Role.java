@@ -51,7 +51,7 @@ public class Role
     // @ManyToMany
     // @JoinTable(
     //     name = "Grant",
-    //     schema = "global_schema",
+    //     schema = "tontine_schema",
     //     joinColumns = @JoinColumn,
     //     inverseJoinColumns = @JoinColumn
     // )
