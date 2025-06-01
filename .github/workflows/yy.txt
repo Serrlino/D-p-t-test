@@ -13,7 +13,7 @@ jobs:
     - name: Create folder on Virtual Machine
       uses: appleboy/ssh-action@v1
       with:
-        username: chillo
+        username: root
         host: ${{ secrets.HOST }} 
         key: ${{ secrets.PRIVATE_KEY }}
         port: ${{ secrets.PORT }}
